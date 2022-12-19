@@ -24,8 +24,8 @@ This project is mostly controlled by keyboard, with some optional mouse input.
 - This mode does not allow maual placement of cells (yet)
 - To run this mode, simply press `r` to generate a random baord and run the simulation.
 - There are four know living and death conditions that produce decent results visually, these options can be toggled with the following keys -> `6`, `7`, `8`, `9`, and can be pressed whne there isn't a solution running
-- `6` -> stable, doesn't decay fast
-- `7` -> stable, decay's fast then grow's
+- `6` -> stable, decay's some then grows
+- `7` -> stable, decay's fast 
 - `8` -> stable, decay's moderately to a static state
 - `9` -> stable, decay's little to none at all
 - Each of these describe a different number of necessary neighboring cells to stay alive, or for a dead cell to come back to life
