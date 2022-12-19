@@ -448,7 +448,7 @@ async function run3D() {
         solving = true;
         while (!empty()) {
             console.log("Running");
-            await sleep(50);
+            await sleep(100);
             let next_gen = cells3D.map(function (arr) {
                 return arr.slice();
             });
