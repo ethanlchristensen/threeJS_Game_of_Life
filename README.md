@@ -1,5 +1,7 @@
 # Conway's Game of Life ~ 2D or 3D
 
+<a href="https://ethanlchristensen.github.io/threeJS_Game_of_Life/">Link to the live hosted project</a>
+
 This is project aiming to practice using threeJS. This is an implementatio of Conway's Game of Life. This is completed in both 2D ans 3D, and these modes can be toggled.
 
 
