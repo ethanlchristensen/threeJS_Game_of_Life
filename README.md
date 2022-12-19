@@ -6,6 +6,8 @@ This is project aiming to practice using threeJS. This is an implementatio of Co
 
 <a href="https://ibb.co/DMwzJSj"><img src="https://i.ibb.co/QHYpg1x/gol-3d-2.png" alt="gol-3d-2" border="0"></a>
 
+<a href="https://ibb.co/6FDgLjS"><img src="https://i.ibb.co/njQztxy/gol-2d.png" alt="gol-2d" border="0"></a>
+
 ## Usage
 
 This project is mostly controlled by keyboard, with some optional mouse input.
