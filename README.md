@@ -3,10 +3,6 @@
 <a href="https://ethanlchristensen.github.io/threeJS_Game_of_Life/">Link to the live hosted project</a>
 
 This is project aiming to practice using threeJS. This is an implementatio of Conway's Game of Life. This is completed in both 2D ans 3D, and these modes can be toggled.
-<div style="display: flex, justify-content: center, align-items: center">
-  <img src="https://i.ibb.co/QHYpg1x/gol-3d-2.png" alt="gol-3d-2" border="0">
-  <img src="https://i.ibb.co/njQztxy/gol-2d.png" alt="gol-2d" border="0">
- </div>
 
 ## Usage
 
@@ -33,3 +29,10 @@ This project is mostly controlled by keyboard, with some optional mouse input.
 - `9` -> stable, decay's little to none at all
 - Each of these describe a different number of necessary neighboring cells to stay alive, or for a dead cell to come back to life
 - Again, `c` can be pressed to clear a running solution, allowing you to choose new living / death conditions and rerunning the simulation
+
+## Screen Shots
+
+<div style="display: flex, justify-content: center, align-items: center">
+  <img src="https://i.ibb.co/QHYpg1x/gol-3d-2.png" alt="gol-3d-2" border="0">
+  <img src="https://i.ibb.co/njQztxy/gol-2d.png" alt="gol-2d" border="0">
+ </div>
