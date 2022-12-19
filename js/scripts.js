@@ -1,9 +1,15 @@
-import * as THREE from  "https://cdn.skypack.dev/three@0.132.2";
+import * as THREE from "https://cdn.skypack.dev/three@0.132.2";
 import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js";
+
+
+// FPS Monitor
+/*const stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.domElement );*/
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const N = 20; // NxN board size
+const N = 30; // NxN board size
 let mode = 1; // 2D (1) or 3D (2)
 
 let life_range_3D = [4, 5];
@@ -12,7 +18,7 @@ let death_range_3D = [5, 5];
 let l = -(N / 2) + 0.5; // lower bound
 let u = N / 2 - 0.5; // upper bound
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialiased: false});
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -50,17 +56,17 @@ planeMesh.name = "PLANE";
 scene.add(planeMesh);
 
 
-let grid = new THREE.GridHelper(N, N, 0x000000, 0x000000);
+let grid = new THREE.GridHelper(N, N, 0x505050, 0x505050);
 grid.name = "GRID";
 scene.add(grid);
 
-const grid2 = new THREE.GridHelper(N, N, 0x000000, 0x000000);
-grid2.rotation.x = Math.PI/2;
+const grid2 = new THREE.GridHelper(N, N, 0x505050, 0x505050);
+grid2.rotation.x = Math.PI / 2;
 grid2.visible = false;
 scene.add(grid2);
-const grid3 = new THREE.GridHelper(N, N, 0x000000, 0x000000);
-grid3.rotation.x = Math.PI/2;
-grid3.rotation.z = Math.PI/2;
+const grid3 = new THREE.GridHelper(N, N, 0x505050, 0x505050);
+grid3.rotation.x = Math.PI / 2;
+grid3.rotation.z = Math.PI / 2;
 grid3.visible = false;
 scene.add(grid3);
 
@@ -138,22 +144,52 @@ window.addEventListener("mousemove", function (e) {
 
 // Defining the different type of boxes
 const binaryBox2D = new THREE.Mesh(
-    new THREE.BoxGeometry(0.75, 0.1, 0.75),
+    new THREE.BoxBufferGeometry(0.90, 0.1, 0.90),
     new THREE.MeshBasicMaterial({
         color: 0x000000,
     }),
 );
 binaryBox2D.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox2D.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
 
-const binaryBox3D = new THREE.Mesh(
-    new THREE.BoxGeometry(0.75, 0.75, 0.75),
+const binaryBox3D1 = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.75, 0.75, 0.75),
     new THREE.MeshBasicMaterial({
         color: 0xFFFFFF,
         transparent: true,
         opacity: 0.50,
     }),
 );
-binaryBox3D.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox3D.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
+binaryBox3D1.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox3D1.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
+
+const binaryBox3D2 = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.75, 0.75, 0.75),
+    new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        transparent: true,
+        opacity: 0.50,
+    }),
+);
+binaryBox3D2.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox3D2.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
+
+const binaryBox3D3 = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.75, 0.75, 0.75),
+    new THREE.MeshBasicMaterial({
+        color: 0x505050,
+        transparent: true,
+        opacity: 0.50,
+    }),
+);
+binaryBox3D3.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox3D3.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
+
+const binaryBox3D4 = new THREE.Mesh(
+    new THREE.BoxBufferGeometry(0.75, 0.75, 0.75),
+    new THREE.MeshBasicMaterial({
+        color: 0x909090,
+        transparent: true,
+        opacity: 0.50,
+    }),
+);
+binaryBox3D4.add(new THREE.LineSegments(new THREE.EdgesGeometry(binaryBox3D4.geometry), new THREE.LineBasicMaterial({ color: 0x000000 })));
 
 
 // Intialization
@@ -231,6 +267,7 @@ const directions2D = [
 
 // Animate the highlight mesh
 function animate(time) {
+    //stats.begin();
     highlightMesh.material.opacity = 1 + Math.sin(time / 120);
     objects.forEach(function (object) {
         object.rotation.x = time / 1;
@@ -238,6 +275,7 @@ function animate(time) {
         object.position.y = 0.5 + 0.5 * Math.abs(Math.sin(time / 1000));
     });
     renderer.render(scene, camera);
+    //stats.end();
 }
 
 renderer.setAnimationLoop(animate);
@@ -252,7 +290,7 @@ window.addEventListener("resize", function () {
 // Keyboard controls
 window.addEventListener('keypress', (event) => {
     if (event.code == "Enter") {
-        if (!solving)  {
+        if (!solving) {
             if (mode == 1) {
                 run2D();
             } else if (mode == 2) {
@@ -293,7 +331,7 @@ window.addEventListener('keypress', (event) => {
             grid2.visible = true;
             grid3.visible = true;
             highlightMesh.material.visible = false;
-            mode = 2; 
+            mode = 2;
         }
     } else if (event.code == "Digit6") {
         if (mode == 2 && !solving) {
@@ -378,32 +416,23 @@ function populateBoard3D() {
             for (let j = l; j < u + 1; j++) {
                 for (let k = l; k < u + 1; k++) {
                     if (Math.random() < 0.5) {
-                        let cell = binaryBox3D.clone();
+                        let cell = null;
+                        scene.add(cell);
+                        if ((i >= (-0.5 * (N / 10)) && i <= (0.5 * (N / 10))) && (j >= (-0.5 * (N / 10)) && j <= (0.5 * (N / 10))) && (k >= (-0.5 * (N / 10)) && k <= (0.5 * (N / 10)))) {
+                            cell = binaryBox3D2.clone();
+                        } else if ((i >= (-2.5 * (N / 10)) && i <= (2.5 * (N / 10))) && (j >= (-2.5 * (N / 10)) && j <= (2.5 * (N / 10))) && (k >= (-2.5 * (N / 10)) && k <= (2.5 * (N / 10)))) {
+                            cell = binaryBox3D3.clone();
+                        } else if ((i >= (-3.5 * (N / 10)) && i <= (3.5 * (N / 10))) && (j >= (-3.5 * (N / 10)) && j <= (3.5 * (N / 10))) && (k >= (-3.5 * (N / 10)) && k <= (3.5 * (N / 10)))) {
+                            cell = binaryBox3D4.clone();
+                        } else {
+                            cell = binaryBox3D1.clone();
+                        }
                         cell.position.x = i;
                         cell.position.z = j;
                         cell.position.y = k;
                         cell.name = (++cellId).toString();
                         cells3D[i + u][j + u][k + u] = cell;
                         scene.add(cell);
-                        if ((i >= (-0.5 * (N / 10)) && i <= (0.5 * (N / 10))) && (j >= (-0.5 * (N / 10)) && j <= (0.5 * (N / 10))) && (k >= (-0.5 * (N / 10)) && k <= (0.5 * (N / 10)))) {
-                            scene.getObjectByName(cell.name).material = new THREE.MeshBasicMaterial({
-                                color: 0x000000,
-                                transparent: true,
-                                opacity: 0.90,
-                            });
-                        } else if ((i >= (-2.5 * (N / 10)) && i <= (2.5 * (N / 10))) && (j >= (-2.5 * (N / 10)) && j <= (2.5 * (N / 10))) && (k >= (-2.5 * (N / 10)) && k <= (2.5 * (N / 10)))) {
-                            scene.getObjectByName(cell.name).material = new THREE.MeshBasicMaterial({
-                                color: 0x505050,
-                                transparent: true,
-                                opacity: 0.90,
-                            });
-                        } else if ((i >= (-3.5 * (N / 10)) && i <= (3.5 * (N / 10))) && (j >= (-3.5 * (N / 10)) && j <= (3.5 * (N / 10))) && (k >= (-3.5 * (N / 10)) && k <= (3.5 * (N / 10)))) {
-                            scene.getObjectByName(cell.name).material = new THREE.MeshBasicMaterial({
-                                color: 0x909090,
-                                transparent: true,
-                                opacity: 0.90,
-                            });
-                        }
 
                         boxes.push(cell);
                     }
@@ -419,7 +448,7 @@ async function run3D() {
         solving = true;
         while (!empty()) {
             console.log("Running");
-            await sleep(150);
+            await sleep(50);
             let next_gen = cells3D.map(function (arr) {
                 return arr.slice();
             });
@@ -445,15 +474,16 @@ async function run3D() {
                             }
                         } else { //DEAD
                             if (neighbors >= death_range_3D[0] && neighbors <= death_range_3D[1]) {
+                                let cell = null;
                                 if (cells3D[i][j][k] != 0) {
-                                    let cell = binaryBox3D.clone();
+                                    cell = binaryBox3D1.clone();
                                     cell.position.x = cells3D[i][j][k].position.x;
                                     cell.position.z = cells3D[i][j][k].position.z;
                                     cell.position.y = cells3D[i][j][k].position.y
                                     cell.name = (++cellId).toString();
                                     next_gen[i][j][k] = cell;
                                 } else { // cell could be 0, and thus doesn't have a prior x,y value . . .
-                                    let cell = binaryBox3D.clone();
+                                    cell = binaryBox3D1.clone();
                                     cell.position.x = l + i;
                                     cell.position.z = l + j;
                                     cell.position.y = l + k;
@@ -569,7 +599,7 @@ async function run2D() {
         highlightMesh.material.color.setHex(0xFF1010);
 
         while (!empty()) {
-            await sleep(75);
+            await sleep(150);
             let next_gen = cells2D.map(function (arr) {
                 return arr.slice();
             });
@@ -662,8 +692,8 @@ function clear_cells_2D() {
     boxes.forEach(box => {
         scene.remove(scene.getObjectByName(box.name));
     });
-    for(let i = 0; i < N; i++) {
-        for(let j = 0; j < N; j++) {
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
             cells2D[i][j] = 0;
         }
     }
