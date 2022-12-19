@@ -3,7 +3,7 @@ import { OrbitControls } from "https://cdn.skypack.dev/three@0.132.2/examples/js
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-const N = 30; // NxN board size
+const N = 20; // NxN board size
 let mode = 1; // 2D (1) or 3D (2)
 
 let life_range_3D = [4, 5];
