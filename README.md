@@ -4,7 +4,7 @@
 
 This is project aiming to practice using threeJS. This is an implementatio of Conway's Game of Life. This is completed in both 2D ans 3D, and these modes can be toggled.
 
-<img src="https://ibb.co/FX3Pmd9">
+<a href="https://ibb.co/FX3Pmd9"><img src="https://i.ibb.co/ypP3dxD/gol-3d.png" alt="gol-3d" border="0"></a>
 
 ## Usage
 
