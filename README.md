@@ -36,3 +36,6 @@ This project is mostly controlled by keyboard, with some optional mouse input.
   <img src="https://i.ibb.co/QHYpg1x/gol-3d-2.png" alt="gol-3d-2" border="0">
   <img src="https://i.ibb.co/njQztxy/gol-2d.png" alt="gol-2d" border="0">
  </div>
+ 
+ 
+ ** Note import the threeJS via URL will not work with something like parcel, however the project works fine with livehost in VSCODE **
